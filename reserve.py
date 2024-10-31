@@ -1,4 +1,5 @@
 from aiohttp import web
+from sys import platform
 import os, hashlib, aiohttp, curses, threading
 
 recieved = 0
@@ -33,7 +34,18 @@ art = r"""
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 """
 
+def screw_you_curses():
+    if platform == "linux" or platform == "linux2":
+        os.system('printf "\e[8;45;160t"')
+    elif platform == "darwin":
+        os.system('printf "\e[8;45;160t"')
+    elif platform == "win32":
+        os.system('mode con: cols=160 lines=45')
+    else:
+        print("oof")
+
 def display(stdscr):
+    screw_you_curses()
     global art
     lines = art.splitlines()
     
